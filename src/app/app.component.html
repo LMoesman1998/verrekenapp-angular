@@ -1,0 +1,62 @@
+<mat-toolbar class="toolbar">
+  <span>Wie betaald wie?</span>
+</mat-toolbar>
+
+<form [formGroup]="deelnemerForm">
+  <div class="main">
+    <mat-grid-list cols="2" rowHeight="75px">
+      
+      <mat-grid-tile>
+        <mat-form-field class="field">
+          <input #nameField matInput placeholder="Naam" formControlName="naam">
+          <mat-error *ngIf="!deelnemerForm.get('naam').valid && deelnemerForm.get('naam').touched">
+              Vul een naam in van max 2 tekens en max 14.
+          </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      
+      <mat-grid-tile>
+        <mat-form-field class="field">
+          <input #inlegField matInput placeholder="Inleg in €" formControlName="inleg">
+          <mat-error *ngIf="!deelnemerForm.get('inleg').valid && deelnemerForm.get('inleg').touched && deelnemerForm.get('inleg').dirty">
+              Vul een geldig bedrag in bijv. 10,00 of 10.00, max 9999.999.
+          </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+    
+    </mat-grid-list>
+  </div>
+
+  <button class="submitButton" mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!deelnemerForm.valid" autofocus="true">
+    Add
+  </button>
+</form>
+
+<div *ngIf="total >= 0" class="main_sub" [class.left]="true">
+  <mat-toolbar class="toolbar" [class.sub]="true">
+    <span>Totaal is €{{total.toFixed(2).replace('.', ',')}}</span>
+    <div style="width: 100%">
+      <button class="deleteButton" mat-icon-button (click)="delete(list)" [disabled]="!canDelete(list)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <mat-selection-list #list class="main" [class.sub]="true">
+    <mat-list-option *ngFor="let item of people"> {{item.name}} legt €{{item.inleg.toFixed(2).replace('.', ',')}} in. </mat-list-option>
+  </mat-selection-list>
+  <button class="submitButton" mat-flat-button color="primary" (click)="calculate()" [disabled]="!canCalculate()">Bereken</button>
+  <mat-error class="error" *ngIf="!canCalculate()">
+    Minimaal 2 personen vereist om te kijken wie wat moet betalen 😉
+</mat-error>
+</div>
+
+<div *ngIf="journal" class="main_sub" [class.right]="true">
+  <mat-toolbar class="toolbar" [class.sub]="true">
+    <span>Kasboek</span>
+  </mat-toolbar>
+  <mat-list class="main" [class.sub]="true">
+      <mat-list-item *ngIf="journal.items == 0">Jullie hebben allemaal al evenveel betaald 👌</mat-list-item>
+    <mat-list-item *ngFor="let item of journal.items">{{item.from}} moet {{item.to}} nog €{{item.amount.toFixed(2).replace('.', ',')}} betalen.</mat-list-item>
+  </mat-list>
+</div>

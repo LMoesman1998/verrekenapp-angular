@@ -1,0 +1,55 @@
+.toolbar {
+  border-style: hidden;
+  border-radius: 10px;
+  background: green;
+  color: white;
+
+  &.sub {
+    margin-top: 10px;
+  }
+}
+
+.main {
+  border-style: solid;
+  border-radius: 10px;
+  border-color: mediumseagreen;
+  background: whitesmoke;
+  margin-top: 20px;
+  padding-top: 10px;
+  &.sub {
+    margin-top: 10px !important;
+  }
+}
+
+.main_sub {
+  margin-top:10px; 
+  width: 49%;
+  &.left {
+    float:left; 
+  }
+  &.right {
+    float: right;
+  }
+}
+
+.field {
+  width: 75%;
+  text-align: center;
+}
+
+.submitButton {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.deleteButton {
+  width: 50px;
+  float: right;
+}
+
+.error {
+  text-align: center; 
+  margin-top: 10px;
+  font-size: 18px;
+  color: gray;
+}
